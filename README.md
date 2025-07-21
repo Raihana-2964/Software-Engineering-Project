@@ -24,6 +24,7 @@ This is a **VB.NET + SQL-based Hostel Management System** developed as a part of
 | File Name       | Description                          |
 |----------------|--------------------------------------|
 | `frontend.vb`   | Main front-end logic in VB.NET       |
+| `backend.sql`   | Main back-end logic in SQL Server Management Studio  |
 | `README.md`     | Project description                  |
 | `images/`       | Screenshots and UI previews          |
 | (Optional) `database.sql` | SQL schema (if applicable)  |
