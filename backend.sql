@@ -53,3 +53,187 @@ Public Class feedback
 
         con.Close()
     End Sub
+'Admin Database'
+Imports System.Data.SqlClient
+Public Class modifydatabase
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim con As New SqlConnection
+        Dim cmd As New SqlCommand
+        Dim statement As String
+        con.ConnectionString = "Data Source=2004AX_LAPTOP\SQLEXPRESS;Initial Catalog=myhead;Integrated Security=True"
+        con.Open()
+        If (TextBox1.Text = "" Or TextBox2.Text = "" Or TextBox3.Text = "" Or TextBox4.Text = "" Or TextBox5.Text = "" Or TextBox6.Text = "") Then
+            MessageBox.Show("Please enter all fields")
+        Else
+            statement = "INSERT INTO Table_3 VALUES('" & TextBox1.Text & "','" & TextBox2.Text & "','" & TextBox3.Text & "','" & TextBox4.Text & "','" & TextBox5.Text & "','" & TextBox6.Text & "')"
+            cmd = New SqlCommand(statement, con)
+            cmd.ExecuteNonQuery()
+            MsgBox(" User added successfully to the database", MsgBoxStyle.Information, "success")
+            TextBox1.Clear()
+            TextBox2.Clear()
+            TextBox3.Clear()
+            TextBox4.Clear()
+            TextBox5.Clear()
+            TextBox6.Clear()
+        End If
+        con.Close()
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Dim con As New SqlConnection
+        Dim cmd As New SqlCommand
+        Dim stmt As String
+        con.ConnectionString = "Data Source=2004AX_LAPTOP\SQLEXPRESS;Initial Catalog=myhead;Integrated Security=True"
+        con.Open()
+        If (TextBox1.Text = "" Or TextBox2.Text = "" Or TextBox3.Text = "" Or TextBox4.Text = "" Or TextBox5.Text = "" Or TextBox6.Text = "") Then
+            MessageBox.Show("Please enter all fields")
+        Else
+            stmt = "UPDATE Table_3 SET name='" & TextBox2.Text & "',college='" & TextBox3.Text & "',dept='" & TextBox4.Text & "',yos='" & TextBox5.Text & "',room_no='" & TextBox6.Text & "' WHERE studid='" & TextBox1.Text & "' "
+            cmd = New SqlCommand(stmt, con)
+            cmd.ExecuteNonQuery()
+            MsgBox(" Record updated successfully", MsgBoxStyle.Information, " success")
+            TextBox1.Clear()
+            TextBox2.Clear()
+            TextBox3.Clear()
+            TextBox4.Clear()
+            TextBox5.Clear()
+            TextBox6.Clear()
+
+        End If
+        con.Close()
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Dim con As New SqlConnection
+        Dim cmd As New SqlCommand
+        Dim smt As String
+        con.ConnectionString = "Data Source=2004AX_LAPTOP\SQLEXPRESS;Initial Catalog=myhead;Integrated Security=True"
+        con.Open()
+        If (TextBox1.Text = "") Then
+            MessageBox.Show("Please enter student ID to delete data")
+        Else
+            smt = "DELETE FROM Table_3 where studid='" & TextBox1.Text & "'"
+            cmd = New SqlCommand(smt, con)
+            cmd.ExecuteNonQuery()
+            MsgBox("User data deleted successfully", MsgBoxStyle.Information, "success")
+            TextBox1.Clear()
+            TextBox2.Clear()
+            TextBox3.Clear()
+            TextBox4.Clear()
+            TextBox5.Clear()
+            TextBox6.Clear()
+        End If
+        con.Close()
+    End Sub
+
+    Dim connectionString As String = "Data Source=2004AX_LAPTOP\SQLEXPRESS;Initial Catalog=myhead;Integrated Security=True"
+    Dim connection As New SqlConnection(connectionString)
+
+    Private Sub modifydatabase_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Try
+            connection.Open()
+            LoadDataIntoDataGridView()
+        Catch ex As Exception
+            MessageBox.Show("Error opening database connection: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub LoadDataIntoDataGridView()
+
+        Dim query As String = "SELECT * FROM Table_3"
+        Dim dataAdapter As New SqlDataAdapter(query, connection)
+        Dim dataTable As New DataTable()
+        dataAdapter.Fill(dataTable)
+        DataGridView1.DataSource = dataTable
+    End Sub
+
+    Private Sub viewdatabase_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If connection.State = ConnectionState.Open Then
+            connection.Close()
+        End If
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Dim a As New adminpage
+        adminpage.Show()
+        Me.Close()
+    End Sub
+End Class
+'View registration form details'
+Imports System.Data.SqlClient
+
+Public Class viewregform
+    Dim connectioString As String = "Data Source=2004AX_LAPTOP\SQLEXPRESS;Initial Catalog=myhead;Integrated Security=True"
+    Dim connection As New SqlConnection(connectioString)
+    Private Sub viewdatabase_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Try
+            connection.Open()
+            LoadDataIntoDataGridView()
+        Catch ex As Exception
+            MessageBox.Show("Error opening database connection: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub LoadDataIntoDataGridView()
+
+        Dim query As String = "SELECT * FROM Table_1"
+        Dim dataAdapter As New SqlDataAdapter(query, connection)
+        Dim dataTable As New DataTable()
+        dataAdapter.Fill(dataTable)
+        DataGridView1.DataSource = dataTable
+    End Sub
+
+    Private Sub viewregform_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If connection.State = ConnectionState.Open Then
+            connection.Close()
+        End If
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim ad As New adminpage
+        adminpage.Show()
+        Me.Close()
+    End Sub
+
+    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
+
+    End Sub
+End Class
+'View feedback details'
+Imports System.Data.SqlClient
+
+Public Class viewdatabase
+    Dim connectionString As String = "Data Source=2004AX_LAPTOP\SQLEXPRESS;Initial Catalog=myhead;Integrated Security=True"
+    Dim connection As New SqlConnection(connectionString)
+    Private Sub viewdatabase_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Try
+            connection.Open()
+            LoadDataIntoDataGridView()
+        Catch ex As Exception
+            MessageBox.Show("Error opening database connection: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub LoadDataIntoDataGridView()
+
+        Dim query As String = "SELECT * FROM Table_2"
+        Dim dataAdapter As New SqlDataAdapter(query, connection)
+        Dim dataTable As New DataTable()
+        dataAdapter.Fill(dataTable)
+        DataGridView1.DataSource = dataTable
+    End Sub
+
+    Private Sub viewdatabase_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If connection.State = ConnectionState.Open Then
+            connection.Close()
+        End If
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim adp As New adminpage
+        adminpage.Show()
+        Me.Close()
+    End Sub
+
+    
